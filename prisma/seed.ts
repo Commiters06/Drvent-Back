@@ -34,7 +34,7 @@ async function main() {
       },
       {
         name: 'Com Hotel',
-        price: 100,
+        price: 500,
         isRemote: false,
         includesHotel: true
       }
