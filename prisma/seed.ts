@@ -16,7 +16,8 @@ async function main() {
     });
   }
 
-  let tickets = await prisma.ticketType.findMany();
+  let tickets = await prisma.ticketType.findFirst();
+  
   if(!tickets){
     await prisma.ticketType.createMany({
       data:[{
@@ -37,12 +38,12 @@ async function main() {
         isRemote: false,
         includesHotel: true
       }
-    ]
+      ]
     })
   }
 
   console.log({ event });
-  console.log(tickets)
+  console.log(tickets);
 }
 
 main()
