@@ -11,7 +11,7 @@ async function main() {
         logoImageUrl: "https://files.driveneducation.com.br/images/logo-rounded.png",
         backgroundImageUrl: "linear-gradient(to right, #FA4098, #FFD77F)",
         startsAt: dayjs().toDate(),
-        endsAt: dayjs().add(21, "days").toDate(),
+        endsAt: dayjs().add(3, "days").toDate(),
       },
     });
   }
@@ -94,14 +94,167 @@ async function main() {
     })
   }
 
+  const local = await prisma.local.findFirst();
+  if(!local){
+    await prisma.local.createMany({
+      data: [
+        {
+          id: 1,
+          name: "Auditório Principal"
+        },
+        {
+          id: 2,
+          name: "Auditório Lateral"
+        },
+        {
+          id: 3,
+          name: "Sala de Workshop"
+        }
+      ]
+    })
+  }
+
+  const activities = await prisma.activity.findMany();
+  if(activities.length === 0){
+    await prisma.activity.createMany({
+      data: [
+        //2023-03-08
+        {
+          localId: 1,
+          date: dayjs("2023-03-08").toDate(),
+          description: "Minecraft: montando o PC ideal",
+          hourStart: dayjs("2023-03-08 9:00").toDate(),
+          hourEnd: dayjs("2023-03-08 10:00").toDate(),
+          limit: Math.floor(Math.random() * (30 - 2 + 1)) + 2
+        },
+        {
+          localId: 1,
+          date: dayjs("2023-03-08").toDate(),
+          description: "LoL: montando o PC ideal",
+          hourStart: dayjs("2023-03-08 10:00").toDate(),
+          hourEnd: dayjs("2023-03-08 11:00").toDate(),
+          limit: Math.floor(Math.random() * (30 - 2 + 1)) + 2
+        },
+        {
+          localId: 2,
+          date: dayjs("2023-03-08").toDate(),
+          description: "Palestra x",
+          hourStart: dayjs("2023-03-08 9:00").toDate(),
+          hourEnd: dayjs("2023-03-08 11:00").toDate(),
+          limit: Math.floor(Math.random() * (30 - 2 + 1)) + 2
+        },
+        {
+          localId: 3,
+          date: dayjs("2023-03-08").toDate(),
+          description: "Palestra y",
+          hourStart: dayjs("2023-03-08 9:00").toDate(),
+          hourEnd: dayjs("2023-03-08 10:00").toDate(),
+          limit: Math.floor(Math.random() * (30 - 2 + 1)) + 2
+        },
+        {
+          localId: 3,
+          date: dayjs("2023-03-08").toDate(),
+          description: "Palestra z",
+          hourStart: dayjs("2023-03-08 10:00").toDate(),
+          hourEnd: dayjs("2023-03-08 11:00").toDate(),
+          limit: 0
+        },
+        //2023-03-09
+        {
+          localId: 1,
+          date: dayjs("2023-03-09").toDate(),
+          description: "JavaScript: fundamentos",
+          hourStart: dayjs("2023-03-09 9:00").toDate(),
+          hourEnd: dayjs("2023-03-09 10:00").toDate(),
+          limit: 0
+        },
+        {
+          localId: 1,
+          date: dayjs("2023-03-09").toDate(),
+          description: "JavaScript: resolvendo problemas do mundo real",
+          hourStart: dayjs("2023-03-09 10:00").toDate(),
+          hourEnd: dayjs("2023-03-09 11:00").toDate(),
+          limit: Math.floor(Math.random() * (30 - 2 + 1)) + 2
+        },
+        {
+          localId: 2,
+          date: dayjs("2023-03-09").toDate(),
+          description: "Palestra sobre front",
+          hourStart: dayjs("2023-03-09 9:00").toDate(),
+          hourEnd: dayjs("2023-03-09 11:00").toDate(),
+          limit: Math.floor(Math.random() * (30 - 2 + 1)) + 2
+        },
+        {
+          localId: 3,
+          date: dayjs("2023-03-09").toDate(),
+          description: "Palestra sobre back",
+          hourStart: dayjs("2023-03-09 9:00").toDate(),
+          hourEnd: dayjs("2023-03-09 10:00").toDate(),
+          limit: Math.floor(Math.random() * (30 - 2 + 1)) + 2
+        },
+        {
+          localId: 3,
+          date: dayjs("2023-03-09").toDate(),
+          description: "Palestra sobre mobile",
+          hourStart: dayjs("2023-03-09 10:00").toDate(),
+          hourEnd: dayjs("2023-03-09 11:00").toDate(),
+          limit: Math.floor(Math.random() * (30 - 2 + 1)) + 2
+        },
+        //2023-03-10
+        {
+          localId: 1,
+          date: dayjs("2023-03-10").toDate(),
+          description: "Aliexpress: monte setups poderosos mas baratos",
+          hourStart: dayjs("2023-03-10 9:00").toDate(),
+          hourEnd: dayjs("2023-03-10 10:00").toDate(),
+          limit: Math.floor(Math.random() * (30 - 2 + 1)) + 2
+        },
+        {
+          localId: 1,
+          date: dayjs("2023-03-10").toDate(),
+          description: "Memória RAM como mensurar quanto você precisa",
+          hourStart: dayjs("2023-03-10 10:00").toDate(),
+          hourEnd: dayjs("2023-03-10 11:00").toDate(),
+          limit: 0
+        },
+        {
+          localId: 2,
+          date: dayjs("2023-03-10").toDate(),
+          description: "GPU com certeza você precisa pra assistir aulas ead",
+          hourStart: dayjs("2023-03-10 9:00").toDate(),
+          hourEnd: dayjs("2023-03-10 11:00").toDate(),
+          limit: Math.floor(Math.random() * (30 - 2 + 1)) + 2
+        },
+        {
+          localId: 3,
+          date: dayjs("2023-03-10").toDate(),
+          description: "SSD/NVME vs HDD",
+          hourStart: dayjs("2023-03-10 9:00").toDate(),
+          hourEnd: dayjs("2023-03-10 10:00").toDate(),
+          limit: Math.floor(Math.random() * (30 - 2 + 1)) + 2
+        },
+        {
+          localId: 3,
+          date: dayjs("2023-03-10").toDate(),
+          description: "AMD vs Intal",
+          hourStart: dayjs("2023-03-10 10:00").toDate(),
+          hourEnd: dayjs("2023-03-10 11:00").toDate(),
+          limit: Math.floor(Math.random() * (30 - 2 + 1)) + 2
+        }
+      ]
+    })
+  }
+
   const ticketsTypeShow = await prisma.ticketType.findMany()
   const hotelShow = await prisma.hotel.findMany()
   const roomShow = await prisma.room.findMany()
+  const activitiesShow = await prisma.activity.findMany({take: 5})
 
   console.log({ event });
   console.log(ticketsTypeShow)
   console.log(hotelShow)
   console.log(roomShow)
+  console.log(activitiesShow)
 
 }
 
