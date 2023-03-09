@@ -13,6 +13,17 @@ async function getFirstEvent(): Promise<GetFirstEventResult> {
 
 export type GetFirstEventResult = Omit<Event, "createdAt" | "updatedAt">;
 
+async function getDates(): Promise<string[]> {
+  const event = await getFirstEvent();
+  const start = dayjs(event.startsAt);
+  const end = dayjs(event.endsAt);
+  const dayCount = end.diff(start, "day") + 1;
+  const dates = Array.from({ length: dayCount }, (_, i) =>
+    start.add(i, "day").format("YYYY-MM-DD")
+  );
+  return dates;
+}
+
 async function isCurrentEventActive(): Promise<boolean> {
   const event = await eventRepository.findFirst();
   if (!event) return false;
@@ -27,6 +38,7 @@ async function isCurrentEventActive(): Promise<boolean> {
 const eventsService = {
   getFirstEvent,
   isCurrentEventActive,
+  getDates
 };
 
 export default eventsService;
