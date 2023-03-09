@@ -156,6 +156,7 @@ model Activity{
   localId Int
   Local Local @relation(fields: [localId], references: [id])
   date DateTime
+  limit Int
   ActivityUser ActivityUser[]
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
