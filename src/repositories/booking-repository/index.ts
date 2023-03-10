@@ -18,9 +18,7 @@ async function findByRoomId(roomId: number) {
     where: {
       roomId,
     },
-    include: {
-      Room: true,
-    }
+    
   });
 }
 
@@ -30,7 +28,11 @@ async function findByUserId(userId: number) {
       userId,
     },
     include: {
-      Room: true,
+      Room: {
+        include: {
+          Hotel: true
+        }
+      }
     }
   });
 }
