@@ -99,16 +99,16 @@ async function main() {
     await prisma.local.createMany({
       data: [
         {
-          id: 1,
           name: "Auditório Principal"
         },
         {
-          id: 2,
           name: "Auditório Lateral"
         },
         {
-          id: 3,
           name: "Sala de Workshop"
+        },
+        {
+          name: "Teatro Principal"
         }
       ]
     })
@@ -248,7 +248,7 @@ async function main() {
   const ticketsTypeShow = await prisma.ticketType.findMany()
   const hotelShow = await prisma.hotel.findMany()
   const roomShow = await prisma.room.findMany()
-  const activitiesShow = await prisma.activity.findMany({take: 5})
+  const activitiesShow = await prisma.activity.findMany({ take: 5 })
 
   console.log({ event });
   console.log(ticketsTypeShow)
