@@ -32,6 +32,29 @@ async function registerUserInActivity(userId: number, activityId: number) {
 
   if(activity.limit === usersActivityCount) throw conflictError("Limite de pessoas alcançado");
 
+  const userActivities = await activityRepository.getOneUserActivities(userId);
+
+  const activitiesConflict: boolean[] = [];
+
+  for(const act of userActivities) {
+    if(dayjs(act.Activity.date).date() !== dayjs(activity.date).date()){
+      activitiesConflict.push(false)
+      continue
+    }
+
+    if(dayjs(act.Activity.hourStart).hour()>= dayjs(activity.hourEnd).hour()){
+      activitiesConflict.push(false)
+      continue
+    }
+
+    if(dayjs(act.Activity.hourEnd).hour()<= dayjs(activity.hourStart).hour()){
+      activitiesConflict.push(false)
+      continue
+    }
+
+    throw conflictError("Incompatibilidade de horário")
+  } 
+
   await activityRepository.insertUserActivity(userId, activityId);
 }
 
