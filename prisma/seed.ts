@@ -99,15 +99,19 @@ async function main() {
     await prisma.local.createMany({
       data: [
         {
+          id:1,
           name: "Auditório Principal"
         },
         {
+          id:2,
           name: "Auditório Lateral"
         },
         {
+          id:3,
           name: "Sala de Workshop"
         },
         {
+          id:4,
           name: "Teatro Principal"
         }
       ]

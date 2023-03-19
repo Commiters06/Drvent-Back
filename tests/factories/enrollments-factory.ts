@@ -8,7 +8,7 @@ import { prisma } from "@/config";
 export async function createEnrollmentWithAddress(user?: User) {
   const incomingUser = user || (await createUser());
 
-  return prisma.enrollment.create({
+  const enrollment = await prisma.enrollment.create({
     data: {
       name: faker.name.findName(),
       cpf: generateCPF(),
@@ -25,11 +25,15 @@ export async function createEnrollmentWithAddress(user?: User) {
           state: faker.helpers.arrayElement(getStates()).name,
         },
       },
-    },
-    include: {
-      Address: true,
-    },
+    }
   });
+
+  const Address = await prisma.address.findFirst({ where: { enrollmentId: enrollment.id } });
+
+  return {
+    ...enrollment,
+    Address
+  };
 }
 
 export function createhAddressWithCEP() {

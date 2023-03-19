@@ -3,14 +3,30 @@ import faker from "@faker-js/faker";
 import { Event } from "@prisma/client";
 import { prisma } from "@/config";
 
-export function createEvent(params: Partial<Event> = {}): Promise<Event> {
-  return prisma.event.create({
+export async function createEvent(): Promise<Event> {
+  const event = await prisma.event.create({
     data: {
-      title: params.title || faker.lorem.sentence(),
-      backgroundImageUrl: params.backgroundImageUrl || faker.image.imageUrl(),
-      logoImageUrl: params.logoImageUrl || faker.image.imageUrl(),
-      startsAt: params.startsAt || dayjs().subtract(1, "day").toDate(),
-      endsAt: params.endsAt || dayjs().add(5, "days").toDate(),
+      title: faker.lorem.sentence(),
+      backgroundImageUrl: faker.image.imageUrl(),
+      logoImageUrl: faker.image.imageUrl(),
+      startsAt: dayjs().subtract(2, "day").toDate(),
+      endsAt: dayjs().add(7, "day").toDate(),
     },
   });
+
+  return event;
+}
+
+export async function createEventNotStarted(): Promise<Event> {
+  const event = await prisma.event.create({
+    data: {
+      title: faker.lorem.sentence(),
+      backgroundImageUrl: faker.image.imageUrl(),
+      logoImageUrl: faker.image.imageUrl(),
+      startsAt: dayjs().add(1, "day").toDate(),
+      endsAt: dayjs().add(7, "day").toDate(),
+    },
+  });
+
+  return event;
 }
