@@ -1,11 +1,11 @@
 import app, { init } from "@/app";
-import { prisma } from "@/config";
+import { prisma, redisServer } from "@/config";
 import { duplicatedEmailError } from "@/services/users-service";
 import { faker } from "@faker-js/faker";
 import dayjs from "dayjs";
 import httpStatus from "http-status";
 import supertest from "supertest";
-import { createEvent, createUser } from "../factories";
+import { createEvent, createEventNotStarted, createUser } from "../factories";
 import { cleanDb } from "../helpers";
 
 beforeAll(async () => {
@@ -45,7 +45,7 @@ describe("POST /users", () => {
     });
 
     it("should respond with status 400 when current event did not started yet", async () => {
-      const event = await createEvent({ startsAt: dayjs().add(1, "day").toDate() });
+      const event = await createEventNotStarted();
       const body = generateValidBody();
 
       const response = await server.post("/users").send(body).query({ eventId: event.id });
@@ -55,6 +55,7 @@ describe("POST /users", () => {
 
     describe("when event started", () => {
       beforeAll(async () => {
+        await redisServer.flushAll();
         await prisma.event.deleteMany({});
         await createEvent();
       });

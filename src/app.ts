@@ -46,7 +46,7 @@ export function init(): Promise<Express> {
 
 export async function close(): Promise<void> {
   await disconnectDB();
-  await disconnectRegis()
+  await disconnectRegis();
 }
 
 export default app;

@@ -3,9 +3,13 @@ import { User } from "@prisma/client";
 
 import { createUser } from "./factories";
 import { createSession } from "./factories/sessions-factory";
-import { prisma } from "@/config";
+import { prisma, redisServer } from "@/config";
 
 export async function cleanDb() {
+  await redisServer.flushAll();
+  await prisma.activityUser.deleteMany({});
+  await prisma.activity.deleteMany({});
+  await prisma.local.deleteMany({});
   await prisma.address.deleteMany({});
   await prisma.payment.deleteMany({});
   await prisma.ticket.deleteMany({});
