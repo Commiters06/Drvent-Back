@@ -17,6 +17,10 @@ async function insertUserActivity(userId: number, activityId: number) {
   await prisma.activityUser.create({ data: { activityId, userId } });
 }
 
+async function getOneUserActivities(userId: number) {
+  return await prisma.activityUser.findMany({ where: { userId }, include:{ Activity: true }});
+}
+
 async function getUsersCountInActivity(activityId: number) {
   return await prisma.activityUser.count({ where: { activityId } });
 }
@@ -30,5 +34,6 @@ export default {
   getUsersEntry,
   insertUserActivity,
   getActivityById,
-  getUsersCountInActivity
+  getUsersCountInActivity,
+  getOneUserActivities
 };
