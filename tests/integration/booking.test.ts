@@ -97,6 +97,7 @@ describe("GET /booking", () => {
           id: expect.any(Number),
           name: expect.any(String),
           capacity: expect.any(Number),
+          Hotel: expect.any(Object),
           hotelId: expect.any(Number),
           createdAt: expect.any(String),
           updatedAt: expect.any(String)
