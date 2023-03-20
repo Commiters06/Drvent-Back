@@ -1,5 +1,6 @@
 generator client {
   provider = "prisma-client-js"
+  previewFeatures = ["extendedIndexes"]
 }
 
 datasource db {
@@ -152,6 +153,8 @@ model Activity {
   limit        Int
   Local        Local          @relation(fields: [localId], references: [id])
   ActivityUser ActivityUser[]
+
+  @@index(fields: [date], type: Hash)
 }
 
 model ActivityUser {
