@@ -3,7 +3,6 @@ import { jest } from "@jest/globals";
 import { createUser } from "../factories";
 import { createActivity, createLocal } from "../factories/activity-factory";
 import activityRepository from "@/repositories/activity-repository";
-import faker from "@faker-js/faker";
 
 describe("activityService test suite", () => {
   it("should not allow entry in activity when not exists", async () => {
