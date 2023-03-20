@@ -18,7 +18,7 @@ async function insertUserActivity(userId: number, activityId: number) {
 }
 
 async function getOneUserActivities(userId: number) {
-  return await prisma.activityUser.findMany({ where: { userId }, include:{ Activity: true }});
+  return await prisma.activityUser.findMany({ where: { userId }, include: { Activity: true } });
 }
 
 async function getUsersCountInActivity(activityId: number) {
