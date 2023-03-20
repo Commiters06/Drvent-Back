@@ -26,7 +26,7 @@ async function listActivities(date: string, userId: number) {
 async function registerUserInActivity(userId: number, activityId: number) {
   const activity = await activityRepository.getActivityById(activityId);
 
-  if(activity === null) throw notFoundError();
+  if(activity === null || activity === undefined) throw notFoundError();
   
   const usersActivityCount = await activityRepository.getUsersCountInActivity(activityId);
 
@@ -37,22 +37,28 @@ async function registerUserInActivity(userId: number, activityId: number) {
   const activitiesConflict: boolean[] = [];
 
   for(const act of userActivities) {
-    if(dayjs(act.Activity.date).date() !== dayjs(activity.date).date()){
-      activitiesConflict.push(false)
-      continue
+    if(dayjs(act.Activity.date).date() !== dayjs(activity.date).date()) {
+      activitiesConflict.push(false);
+      continue;
     }
 
-    if(dayjs(act.Activity.hourStart).hour()>= dayjs(activity.hourEnd).hour()){
-      activitiesConflict.push(false)
-      continue
+    const actJoinedStart = dayjs(act.Activity.hourStart).hour();
+    const activitytEnd = dayjs(activity.hourEnd).hour();
+
+    if(actJoinedStart >= activitytEnd) {
+      activitiesConflict.push(false);
+      continue;
     }
 
-    if(dayjs(act.Activity.hourEnd).hour()<= dayjs(activity.hourStart).hour()){
-      activitiesConflict.push(false)
-      continue
+    const actJoinedEnd = dayjs(act.Activity.hourEnd).hour();
+    const activitytStart = dayjs(activity.hourStart).hour();
+
+    if(actJoinedEnd <= activitytStart) {
+      activitiesConflict.push(false);
+      continue;
     }
 
-    throw conflictError("Incompatibilidade de horário")
+    throw conflictError("Incompatibilidade de horário");
   } 
 
   await activityRepository.insertUserActivity(userId, activityId);
